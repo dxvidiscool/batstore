@@ -1,63 +1,133 @@
-import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module.js";
-import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
+// ===============================
+// IMPORTS
+// ===============================
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.module.js";
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/loaders/GLTFLoader.js";
 
-// Escena
+// ===============================
+// ESCENA
+// ===============================
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000);
 
-// Cámara
+// ===============================
+// CÁMARA
+// ===============================
 const camera = new THREE.PerspectiveCamera(
   60,
   window.innerWidth / window.innerHeight,
   0.01,
   1000
 );
-camera.position.set(0, 1, 3);
-camera.lookAt(0, 0, 0);
 
-// Renderer
+// ===============================
+// RENDERER
+// ===============================
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById("container3D").appendChild(renderer.domElement);
+renderer.setPixelRatio(window.devicePixelRatio);
+document.body.appendChild(renderer.domElement);
 
-// Luces
-scene.add(new THREE.AmbientLight(0xffffff, 2));
+// ===============================
+// LUCES (FUERTES A PROPÓSITO)
+// ===============================
+scene.add(new THREE.AmbientLight(0xffffff, 1.2));
 
-const light = new THREE.DirectionalLight(0xffffff, 2);
-light.position.set(5, 5, 5);
-scene.add(light);
+const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+dirLight.position.set(5, 10, 7);
+scene.add(dirLight);
 
-// Ejes (DEBEN verse sí o sí)
-scene.add(new THREE.AxesHelper(1));
+// ===============================
+// EJES (DEBUG – LO QUE YA VES)
+// ===============================
+const axesHelper = new THREE.AxesHelper(5);
+scene.add(axesHelper);
 
-// Modelo
+// ===============================
+// CARGA DEL MODELO
+// ===============================
+let modelo;
 const loader = new GLTFLoader();
+
 loader.load(
   "./models/modelo/model.gltf",
   (gltf) => {
-    const model = gltf.scene;
+    modelo = gltf.scene;
 
-    model.scale.set(0.01, 0.01, 0.01);
+    // FORZAR VISIBILIDAD TOTAL
+    modelo.traverse((child) => {
+      if (child.isMesh) {
+        child.material.transparent = false;
+        child.material.opacity = 1;
+        child.material.depthWrite = true;
+        child.material.side = THREE.DoubleSide;
+        child.material.needsUpdate = true;
+      }
+    });
 
-    const box = new THREE.Box3().setFromObject(model);
+    // CENTRAR MODELO
+    const box = new THREE.Box3().setFromObject(modelo);
+    const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
-    model.position.sub(center);
+    modelo.position.sub(center);
 
-    scene.add(model);
-    console.log("MODELO OK");
+    // ESCALA AUTOMÁTICA
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const scale = 2 / maxDim;
+    modelo.scale.setScalar(scale);
+
+    // ROTACIÓN CORRECTIVA (BLENDER FIX)
+    modelo.rotation.x = -Math.PI / 2;
+
+    // AJUSTE DE CÁMARA
+    camera.position.set(0, 0, 3);
+    camera.lookAt(0, 0, 0);
+
+    scene.add(modelo);
+
+    console.log("MODELO CARGADO Y VISIBLE");
   },
   undefined,
-  (e) => console.error(e)
+  (error) => {
+    console.error("ERROR AL CARGAR MODELO:", error);
+  }
 );
 
-// Loop
+// ===============================
+// MOVIMIENTO HORIZONTAL CON MOUSE
+// ===============================
+let arrastrando = false;
+let xPrevio = 0;
+
+renderer.domElement.addEventListener("mousedown", (e) => {
+  arrastrando = true;
+  xPrevio = e.clientX;
+});
+
+window.addEventListener("mouseup", () => {
+  arrastrando = false;
+});
+
+window.addEventListener("mousemove", (e) => {
+  if (!arrastrando || !modelo) return;
+
+  const deltaX = e.clientX - xPrevio;
+  modelo.rotation.y += deltaX * 0.005;
+  xPrevio = e.clientX;
+});
+
+// ===============================
+// ANIMACIÓN
+// ===============================
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
 animate();
 
-// Resize
+// ===============================
+// RESIZE
+// ===============================
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
