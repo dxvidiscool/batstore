@@ -2,8 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Bat Store :" </title>
+  <title>Bat Store</title>
 
+  <!-- MODEL VIEWER -->
   <script type="module"
     src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
   </script>
@@ -13,19 +14,65 @@
       margin: 0;
       background: #000;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      color: white;
+      font-family: Arial, sans-serif;
     }
 
     model-viewer {
-      width: 600px;     /* 👈 TAMAÑO DEL VISOR */
+      width: 600px;
       height: 600px;
+      margin-top: 40px;
+    }
+
+    /* BOTÓN */
+    .scroll-btn {
+      margin: 20px 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      background: white;
+      color: black;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* TARJETA PRODUCTO */
+    .product-card {
+      margin-top: 40px;
+      background: #111;
+      border-radius: 16px;
+      padding: 20px 28px;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+
+    .product-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .product-price {
+      font-size: 16px;
+      opacity: 0.85;
     }
   </style>
 </head>
 
 <body>
+
+  <!-- MODELO 3D -->
   <model-viewer
     src="modell.glb"
     camera-controls
@@ -36,6 +83,20 @@
     ar
     ar-modes="webxr scene-viewer quick-look">
   </model-viewer>
+
+  <!-- BOTÓN -->
+  <button class="scroll-btn" onclick="window.scrollBy({top: 400, behavior: 'smooth'})">
+    ↓
+  </button>
+
+  <!-- PRODUCTO -->
+  <div class="product-card">
+    <img src="producto.jpg" alt="Anillo">
+    <div class="product-name">Anillo</div>
+    <div class="product-price">$13</div>
+  </div>
+
 </body>
 </html>
+
 
