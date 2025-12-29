@@ -1,35 +1,56 @@
 import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module.js";
 import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
 
-// Escena
+// =======================
+// ESCENA
+// =======================
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x000000);
 
-// Cámara
+// =======================
+// CÁMARA
+// =======================
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
-  0.1,
+  0.01,
   1000
 );
-camera.position.set(0, 1, 6);
+camera.position.set(0, 1, 3);
 camera.lookAt(0, 0, 0);
 
-// Renderer
+// =======================
+// RENDERER
+// =======================
 const renderer = new THREE.WebGLRenderer({
   antialias: true,
-  alpha: true
+  alpha: false
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById("container3D").appendChild(renderer.domElement);
 
-// Luces
-scene.add(new THREE.AmbientLight(0xffffff, 1));
+// =======================
+// LUCES (FUERTES)
+// =======================
+scene.add(new THREE.AmbientLight(0xffffff, 2));
 
-const light = new THREE.DirectionalLight(0xffffff, 1);
-light.position.set(5, 5, 5);
-scene.add(light);
+const light1 = new THREE.DirectionalLight(0xffffff, 2);
+light1.position.set(5, 5, 5);
+scene.add(light1);
 
-// Cargar modelo
+const light2 = new THREE.DirectionalLight(0xffffff, 2);
+light2.position.set(-5, -5, -5);
+scene.add(light2);
+
+// =======================
+// Ejes (DEBUG VISUAL)
+// =======================
+const axes = new THREE.AxesHelper(2);
+scene.add(axes);
+
+// =======================
+// CARGAR MODELO
+// =======================
 let modelo;
 const loader = new GLTFLoader();
 
@@ -37,10 +58,18 @@ loader.load(
   "./models/modelo/model.gltf",
   (gltf) => {
     modelo = gltf.scene;
-    modelo.scale.set(0.5, 0.5, 0.5);
-    modelo.position.set(0, 0, 0);
+
+    // 🔴 ESCALA FORZADA
+    modelo.scale.set(0.01, 0.01, 0.01);
+
+    // 🔴 RECENTRAR AUTOMÁTICAMENTE
+    const box = new THREE.Box3().setFromObject(modelo);
+    const center = box.getCenter(new THREE.Vector3());
+    modelo.position.sub(center);
+
     scene.add(modelo);
-    console.log("MODELO CARGADO");
+
+    console.log("MODELO CARGADO Y CENTRADO");
   },
   undefined,
   (error) => {
@@ -48,7 +77,9 @@ loader.load(
   }
 );
 
-// Movimiento horizontal con mouse
+// =======================
+// MOVIMIENTO HORIZONTAL (MOUSE)
+// =======================
 let arrastrando = false;
 let xPrevio = 0;
 
@@ -68,14 +99,18 @@ window.addEventListener("mousemove", (e) => {
   xPrevio = e.clientX;
 });
 
-// Animación
+// =======================
+// ANIMACIÓN
+// =======================
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
 animate();
 
-// Responsive
+// =======================
+// RESPONSIVE
+// =======================
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
