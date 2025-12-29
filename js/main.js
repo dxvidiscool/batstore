@@ -11,25 +11,30 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.z = 5;
+camera.position.set(0, 1, 6);
+camera.lookAt(0, 0, 0);
 
 // Renderer
-const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  alpha: true
+});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById("container3D").appendChild(renderer.domElement);
 
 // Luces
 scene.add(new THREE.AmbientLight(0xffffff, 1));
-const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-dirLight.position.set(5, 5, 5);
-scene.add(dirLight);
 
-// Cargar modelo GLTF + BIN
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(5, 5, 5);
+scene.add(light);
+
+// Cargar modelo
 let modelo;
 const loader = new GLTFLoader();
 
 loader.load(
-  "./models/modelo/scene.gltf",
+  "./models/modelo/model.gltf",
   (gltf) => {
     modelo = gltf.scene;
     modelo.scale.set(0.5, 0.5, 0.5);
@@ -38,7 +43,9 @@ loader.load(
     console.log("MODELO CARGADO");
   },
   undefined,
-  (error) => console.error(error)
+  (error) => {
+    console.error("ERROR AL CARGAR MODELO:", error);
+  }
 );
 
 // Movimiento horizontal con mouse
@@ -61,14 +68,14 @@ window.addEventListener("mousemove", (e) => {
   xPrevio = e.clientX;
 });
 
-// Render loop
+// Animación
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
 animate();
 
-// Resize
+// Responsive
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
