@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Bat Store ♰ </title>
+  <title>Bat Store ♰</title>
 
   <!-- Fuente elegante -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
@@ -37,19 +37,33 @@
       pointer-events: none;
     }
 
-    /* ===== MODELO ===== */
+    /* ===== SECCION MODELO ===== */
     .viewer-section {
       min-height: 100vh;
+      position: relative;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      position: relative;
+      overflow: hidden;
     }
 
+    /* ===== VIDEO DE FONDO ===== */
+    .bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    /* ===== MODELO 3D ===== */
     model-viewer {
       width: 600px;
       height: 600px;
+      background: transparent;
+      z-index: 5;
     }
 
     /* ===== BOTÓN ===== */
@@ -126,10 +140,17 @@
 <body>
 
   <!-- TITULO -->
-  <div class="brand">Bat Store ♰ </div>
+  <div class="brand">Bat Store ♰</div>
 
-  <!-- MODELO -->
+  <!-- MODELO + VIDEO -->
   <section class="viewer-section">
+
+    <!-- VIDEO DE FONDO -->
+    <video class="bg-video" autoplay muted loop playsinline>
+      <source src="video.mp4" type="video/mp4">
+    </video>
+
+    <!-- MODELO 3D -->
     <model-viewer
       src="modell.glb"
       camera-controls
@@ -161,7 +182,3 @@
 
 </body>
 </html>
-
-</body>
-</html>
-
