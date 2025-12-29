@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Bat Store</title>
 
-  <!-- model-viewer -->
   <script type="module"
     src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
   </script>
@@ -19,19 +18,15 @@
       background: #000;
       color: #fff;
       font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
 
-    /* ===== CONTENEDOR MODELO ===== */
+    /* ===== MODELO ===== */
     .viewer-section {
       min-height: 100vh;
-      width: 100%;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       position: relative;
     }
 
@@ -48,11 +43,11 @@
       height: 48px;
       border-radius: 50%;
       border: none;
-      background: #fff;
-      color: #000;
+      background: white;
+      color: black;
       font-size: 24px;
       cursor: pointer;
-      margin-bottom: -24px; /* desktop: mitad visible */
+      margin-bottom: -24px;
       transition: all 0.3s ease;
       z-index: 10;
     }
@@ -61,16 +56,20 @@
       margin-bottom: 20px;
     }
 
-    /* ===== SECCIÓN INFO ===== */
+    /* ===== INFO ===== */
     .info-section {
       min-height: 100vh;
-      width: 100%;
       background: #111;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      gap: 10px;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .product-image {
+      width: 220px;
+      max-width: 80%;
     }
 
     .product-name {
@@ -92,8 +91,8 @@
 
       .scroll-btn {
         margin-bottom: 0;
-        height: 24px;       /* solo media altura */
-        overflow: hidden;  /* recorte real */
+        height: 24px;
+        overflow: hidden;
       }
 
       .scroll-btn.active {
@@ -105,7 +104,7 @@
 
 <body>
 
-  <!-- ===== MODELO ===== -->
+  <!-- MODELO -->
   <section class="viewer-section">
     <model-viewer
       src="modell.glb"
@@ -113,33 +112,29 @@
       disable-zoom
       auto-rotate
       exposure="1.4"
-      shadow-intensity="1"
-      ar
-      ar-modes="webxr scene-viewer quick-look">
+      shadow-intensity="1">
     </model-viewer>
 
     <button class="scroll-btn" id="scrollBtn">↓</button>
   </section>
 
-  <!-- ===== INFO PRODUCTO ===== -->
+  <!-- INFO PRODUCTO -->
   <section class="info-section" id="info">
+    <img src="producto.jpg" alt="Anillo" class="product-image">
     <div class="product-name">Anillo</div>
     <div class="product-price">$13</div>
   </section>
 
-  <!-- ===== JS ===== -->
   <script>
     const btn = document.getElementById("scrollBtn");
     const info = document.getElementById("info");
 
     btn.addEventListener("click", () => {
       btn.classList.toggle("active");
-
-      info.scrollIntoView({
-        behavior: "smooth"
-      });
+      info.scrollIntoView({ behavior: "smooth" });
     });
   </script>
 
 </body>
 </html>
+
