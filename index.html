@@ -16,7 +16,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 200vh; /* para que haya scroll */
+      min-height: 200vh;
       color: white;
       font-family: Arial, sans-serif;
     }
@@ -27,12 +27,9 @@
       margin-top: 40px;
     }
 
-    /* BOTÓN MEDIO VISIBLE */
+    /* BOTÓN (MEDIA VISTA) */
     .scroll-btn {
-      position: fixed;
-      bottom: -24px;            /* 👈 SOLO SE VE LA MITAD */
-      left: 50%;
-      transform: translateX(-50%);
+      margin-top: -24px;       /* 👈 SOLO SE VE LA MITAD */
       width: 48px;
       height: 48px;
       border-radius: 50%;
@@ -41,16 +38,15 @@
       color: black;
       font-size: 24px;
       cursor: pointer;
-      transition: bottom 0.3s ease;
-      z-index: 10;
+      transition: margin-top 0.3s ease;
     }
 
-    /* CUANDO SUBE */
+    /* BOTÓN COMPLETO AL CLIC */
     .scroll-btn.active {
-      bottom: 20px;            /* 👈 SE VE COMPLETO */
+      margin-top: 20px;
     }
 
-    /* TARJETA PRODUCTO */
+    /* PRODUCTO */
     .product-card {
       margin-top: 120px;
       background: #111;
@@ -82,7 +78,7 @@
 
 <body>
 
-  <!-- MODELO -->
+  <!-- MODELO 3D -->
   <model-viewer
     src="modell.glb"
     camera-controls
@@ -109,7 +105,7 @@
     const producto = document.getElementById("producto");
 
     btn.addEventListener("click", () => {
-      btn.classList.add("active");   // 👉 sube el botón
+      btn.classList.add("active");  // sube el botón
       producto.scrollIntoView({
         behavior: "smooth"
       });
