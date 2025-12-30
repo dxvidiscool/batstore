@@ -1,218 +1,217 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Bat Store ♰</title>
+<meta charset="UTF-8">
+<title>Bat Store ♰</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
-  <script type="module"
-    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
-  </script>
+<script type="module"
+  src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
+</script>
 
-  <style>
-    * { box-sizing: border-box; }
+<style>
+*{box-sizing:border-box}
 
-    body {
-      margin: 0;
-      background: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
-    }
+body{
+  margin:0;
+  background:#000;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
 
-    .brand {
-      position: fixed;
-      top: 20px;
-      width: 100%;
-      text-align: center;
-      font-family: 'Great Vibes', cursive;
-      font-size: 48px;
-      z-index: 20;
-      pointer-events: none;
-    }
+.brand{
+  position:fixed;
+  top:20px;
+  width:100%;
+  text-align:center;
+  font-family:'Great Vibes',cursive;
+  font-size:48px;
+  z-index:20;
+  pointer-events:none;
+}
 
-    .viewer-section {
-      min-height: 100vh;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+/* ===== MODELO ===== */
+.viewer-section{
+  min-height:100vh;
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
 
-    .bg-video {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 1;
-    }
+.bg-video{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:1;
+}
 
-    model-viewer {
-      width: 600px;
-      height: 600px;
-      z-index: 5;
-    }
+model-viewer{
+  width:600px;
+  height:600px;
+  z-index:5;
+}
 
-    .scroll-btn {
-      position: absolute;
-      bottom: 0;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: none;
-      background: #fff;
-      color: #000;
-      font-size: 24px;
-      cursor: pointer;
-      margin-bottom: -24px;
-      z-index: 10;
-    }
+.scroll-btn{
+  position:absolute;
+  bottom:0;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:none;
+  background:#fff;
+  color:#000;
+  font-size:24px;
+  cursor:pointer;
+  margin-bottom:-24px;
+  z-index:10;
+}
 
-    .info-section {
-      min-height: 100vh;
-      background: #111;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 0;
-    }
+/* ===== INFO ===== */
+.info-section{
+  min-height:100vh;
+  background:#111;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:40px 0;
+}
 
-    .product-image {
-      width: 220px;
-    }
+.product-image{width:220px}
+.product-name{
+  font-size:28px;
+  margin-top:15px;
+  cursor:pointer;
+}
+.product-price{
+  font-size:22px;
+  color:#ccc;
+}
 
-    .product-name {
-      font-size: 28px;
-      margin-top: 15px;
-      cursor: pointer;
-    }
+/* ===== MODAL ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:50;
+}
+.modal.active{display:flex}
 
-    .product-price {
-      font-size: 22px;
-      color: #ccc;
-      margin-bottom: 10px;
-    }
+.modal-content{
+  background:#111;
+  width:90%;
+  max-width:420px;
+  padding:20px;
+  border-radius:8px;
+}
 
-    /* ===== MODAL ===== */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 50;
-    }
+/* ===== SLIDER PRO ===== */
+.slider{
+  position:relative;
+  overflow:hidden;
+}
 
-    .modal.active {
-      display: flex;
-    }
+.slider img{
+  width:100%;
+  border-radius:6px;
+  transition:all .6s cubic-bezier(.25,.8,.25,1);
+}
 
-    .modal-content {
-      background: #111;
-      width: 90%;
-      max-width: 420px;
-      padding: 20px;
-      border-radius: 8px;
-    }
+.slider img.animate-next{
+  transform:translateX(-40px) scale(1.08);
+  filter:blur(6px);
+  opacity:0;
+}
 
-    .close {
-      font-size: 22px;
-      cursor: pointer;
-    }
+.slider img.animate-prev{
+  transform:translateX(40px) scale(1.08);
+  filter:blur(6px);
+  opacity:0;
+}
 
-    /* ===== SLIDER ===== */
-    .slider {
-      position: relative;
-      overflow: hidden;
-    }
+.arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:30px;
+  cursor:pointer;
+  background:rgba(0,0,0,.5);
+  padding:6px 12px;
+  border-radius:4px;
+  user-select:none;
+}
 
-    .slider img {
-      width: 100%;
-      border-radius: 6px;
-      transition: transform 0.4s ease, opacity 0.4s ease;
-    }
+.arrow.left{left:10px}
+.arrow.right{right:10px}
 
-    .slider img.slide-left {
-      transform: translateX(-30px);
-      opacity: 0;
-    }
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  margin-top:12px;
+}
 
-    .slider img.slide-right {
-      transform: translateX(30px);
-      opacity: 0;
-    }
+.close{
+  font-size:22px;
+  cursor:pointer;
+}
 
-    .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 28px;
-      cursor: pointer;
-      user-select: none;
-      background: rgba(0,0,0,0.4);
-      padding: 5px 10px;
-      border-radius: 4px;
-    }
+.size-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:12px 0 20px;
+}
 
-    .arrow.left { left: 10px; }
-    .arrow.right { right: 10px; }
+.size-square{
+  border:1px solid #fff;
+  padding:6px 14px;
+}
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 12px;
-    }
+/* ===== ACORDEON ===== */
+.accordion-item{
+  border-top:1px solid #333;
+  padding:15px 0;
+}
 
-    .size-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 10px 0 20px;
-    }
+.accordion-header{
+  display:flex;
+  justify-content:space-between;
+  cursor:pointer;
+}
 
-    .size-square {
-      border: 1px solid #fff;
-      padding: 6px 14px;
-    }
+.accordion-header span{
+  transition:transform .3s;
+}
 
-    /* ===== ACORDEON ===== */
-    .accordion-item {
-      border-top: 1px solid #333;
-      padding: 15px 0;
-    }
+.accordion-content{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .4s ease;
+}
 
-    .accordion-header {
-      display: flex;
-      justify-content: space-between;
-      cursor: pointer;
-    }
+.accordion-content p{
+  color:#ccc;
+  margin-top:12px;
+}
 
-    .accordion-header span {
-      transition: transform 0.3s;
-    }
+.accordion-item.active .accordion-content{
+  max-height:300px;
+}
 
-    .accordion-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
-    }
+.accordion-item.active span{
+  transform:rotate(45deg);
+}
 
-    .accordion-content p {
-      color: #ccc;
-      margin-top: 12px;
-      line-height: 1.5;
-    }
-
-    .accordion-item.active .accordion-content {
-      max-height: 300px;
-    }
-
-    .accordion-item.active span {
-      transform: rotate(45deg);
-    }
-  </style>
+@media(max-width:768px){
+  model-viewer{width:90vw;height:90vw}
+}
+</style>
 </head>
 
 <body>
@@ -238,16 +237,11 @@
 <div class="modal" id="modal">
   <div class="modal-content">
 
-    <!-- SLIDER -->
     <div class="slider">
       <img id="sliderImage" src="producto.jpg">
       <div class="arrow left" id="prev">‹</div>
       <div class="arrow right" id="next">›</div>
-
-      <!--
-        AQUÍ PUEDES CAMBIAR LAS IMÁGENES:
-        const images = ["img1.jpg","img2.jpg","img3.jpg"];
-      -->
+      <!-- AQUÍ PUEDES CAMBIAR O AÑADIR MÁS IMÁGENES -->
     </div>
 
     <div class="modal-header">
@@ -263,7 +257,6 @@
       <div class="size-square">9</div>
     </div>
 
-    <!-- DESCRIPCIÓN -->
     <div class="accordion-item">
       <div class="accordion-header">
         <div>DESCRIPCIÓN ♰</div>
@@ -282,38 +275,44 @@
 </div>
 
 <script>
-  const modal = document.getElementById("modal");
-  document.getElementById("openModal").onclick = () => modal.classList.add("active");
-  document.getElementById("closeModal").onclick = () => modal.classList.remove("active");
+/* BOTÓN ↓ ARREGLADO */
+document.getElementById("scrollBtn").onclick = () => {
+  document.getElementById("info").scrollIntoView({behavior:"smooth"});
+};
 
-  document.querySelector(".accordion-header").onclick = function () {
-    this.parentElement.classList.toggle("active");
-  };
+/* MODAL */
+const modal=document.getElementById("modal");
+document.getElementById("openModal").onclick=()=>modal.classList.add("active");
+document.getElementById("closeModal").onclick=()=>modal.classList.remove("active");
 
-  /* SLIDER CON ANIMACIÓN */
-  const images = [
-    "producto.jpg"
-    // AGREGA AQUÍ MÁS IMÁGENES EN EL FUTURO
-  ];
+/* ACORDEON */
+document.querySelector(".accordion-header").onclick=function(){
+  this.parentElement.classList.toggle("active");
+};
 
-  let index = 0;
-  const sliderImage = document.getElementById("sliderImage");
+/* SLIDER PEPA */
+const images=[
+  "producto.jpg"
+  // AGREGA MÁS IMÁGENES AQUÍ
+];
+let index=0;
+const img=document.getElementById("sliderImage");
 
-  function changeImage(direction) {
-    sliderImage.classList.add(direction === "next" ? "slide-left" : "slide-right");
+function slide(dir){
+  img.classList.add(dir==="next"?"animate-next":"animate-prev");
 
-    setTimeout(() => {
-      index = direction === "next"
-        ? (index + 1) % images.length
-        : (index - 1 + images.length) % images.length;
+  setTimeout(()=>{
+    index=dir==="next"
+      ?(index+1)%images.length
+      :(index-1+images.length)%images.length;
 
-      sliderImage.src = images[index];
-      sliderImage.classList.remove("slide-left", "slide-right");
-    }, 300);
-  }
+    img.src=images[index];
+    img.classList.remove("animate-next","animate-prev");
+  },350);
+}
 
-  document.getElementById("next").onclick = () => changeImage("next");
-  document.getElementById("prev").onclick = () => changeImage("prev");
+document.getElementById("next").onclick=()=>slide("next");
+document.getElementById("prev").onclick=()=>slide("prev");
 </script>
 
 </body>
