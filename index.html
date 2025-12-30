@@ -125,21 +125,35 @@
     /* ===== SLIDER ===== */
     .slider {
       position: relative;
-      text-align: center;
+      overflow: hidden;
     }
 
     .slider img {
       width: 100%;
       border-radius: 6px;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .slider img.slide-left {
+      transform: translateX(-30px);
+      opacity: 0;
+    }
+
+    .slider img.slide-right {
+      transform: translateX(30px);
+      opacity: 0;
     }
 
     .arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 26px;
+      font-size: 28px;
       cursor: pointer;
       user-select: none;
+      background: rgba(0,0,0,0.4);
+      padding: 5px 10px;
+      border-radius: 4px;
     }
 
     .arrow.left { left: 10px; }
@@ -148,7 +162,7 @@
     .modal-header {
       display: flex;
       justify-content: space-between;
-      margin-top: 10px;
+      margin-top: 12px;
     }
 
     .size-box {
@@ -185,14 +199,14 @@
       transition: max-height 0.4s ease;
     }
 
-    .accordion-content img {
-      width: 100%;
-      margin-top: 15px;
-      border-radius: 6px;
+    .accordion-content p {
+      color: #ccc;
+      margin-top: 12px;
+      line-height: 1.5;
     }
 
     .accordion-item.active .accordion-content {
-      max-height: 500px;
+      max-height: 300px;
     }
 
     .accordion-item.active span {
@@ -226,16 +240,12 @@
 
     <!-- SLIDER -->
     <div class="slider">
-      <!-- IMAGEN PRINCIPAL -->
       <img id="sliderImage" src="producto.jpg">
-
-      <!-- FLECHAS -->
       <div class="arrow left" id="prev">‹</div>
       <div class="arrow right" id="next">›</div>
 
       <!--
-        AQUÍ PUEDES CAMBIAR O AÑADIR MÁS IMÁGENES:
-        ejemplo:
+        AQUÍ PUEDES CAMBIAR LAS IMÁGENES:
         const images = ["img1.jpg","img2.jpg","img3.jpg"];
       -->
     </div>
@@ -248,19 +258,23 @@
       <div class="close" id="closeModal">✕</div>
     </div>
 
-    <!-- TALLA -->
     <div class="size-box">
       <div>Talla</div>
       <div class="size-square">9</div>
     </div>
 
+    <!-- DESCRIPCIÓN -->
     <div class="accordion-item">
       <div class="accordion-header">
-        <div>TALLA REFERENCIA</div>
+        <div>DESCRIPCIÓN ♰</div>
         <span>+</span>
       </div>
       <div class="accordion-content">
-        <img src="tallasanillos.jpg">
+        <p>
+          Anillo inspirado en Chrome Hearts.
+          Diseño gótico con acabado envejecido,
+          ideal para uso diario o colección.
+        </p>
       </div>
     </div>
 
@@ -276,22 +290,30 @@
     this.parentElement.classList.toggle("active");
   };
 
-  /* SLIDER */
+  /* SLIDER CON ANIMACIÓN */
   const images = [
     "producto.jpg"
-    // AQUÍ PUEDES AÑADIR MÁS IMÁGENES EN EL FUTURO
+    // AGREGA AQUÍ MÁS IMÁGENES EN EL FUTURO
   ];
+
   let index = 0;
+  const sliderImage = document.getElementById("sliderImage");
 
-  document.getElementById("prev").onclick = () => {
-    index = (index - 1 + images.length) % images.length;
-    sliderImage.src = images[index];
-  };
+  function changeImage(direction) {
+    sliderImage.classList.add(direction === "next" ? "slide-left" : "slide-right");
 
-  document.getElementById("next").onclick = () => {
-    index = (index + 1) % images.length;
-    sliderImage.src = images[index];
-  };
+    setTimeout(() => {
+      index = direction === "next"
+        ? (index + 1) % images.length
+        : (index - 1 + images.length) % images.length;
+
+      sliderImage.src = images[index];
+      sliderImage.classList.remove("slide-left", "slide-right");
+    }, 300);
+  }
+
+  document.getElementById("next").onclick = () => changeImage("next");
+  document.getElementById("prev").onclick = () => changeImage("prev");
 </script>
 
 </body>
