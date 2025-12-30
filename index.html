@@ -90,6 +90,8 @@
     .product-name {
       font-size: 28px;
       margin-top: 15px;
+      cursor: pointer;
+      text-decoration: underline;
     }
 
     .product-price {
@@ -98,10 +100,53 @@
       margin-bottom: 25px;
     }
 
+    /* ===== MODAL ===== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #111;
+      width: 90%;
+      max-width: 420px;
+      padding: 25px;
+      border-radius: 8px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .modal-price {
+      color: #aaa;
+      margin-top: 5px;
+    }
+
+    .close {
+      font-size: 22px;
+      cursor: pointer;
+    }
+
     /* ===== ACORDEON ===== */
     .accordion {
-      width: 90%;
-      max-width: 400px;
+      margin-top: 20px;
     }
 
     .accordion-item {
@@ -162,6 +207,7 @@
 
   <div class="brand">Bat Store ♰</div>
 
+  <!-- MODELO + VIDEO -->
   <section class="viewer-section">
     <video class="bg-video" autoplay muted loop playsinline>
       <source src="video.mp4" type="video/mp4">
@@ -177,45 +223,72 @@
     <button class="scroll-btn" id="scrollBtn">↓</button>
   </section>
 
+  <!-- INFO PRODUCTO -->
   <section class="info-section" id="info">
     <img src="producto.jpg" class="product-image">
-    <div class="product-name">Anillo Chrome Hearts ♰</div>
+    <div class="product-name" id="openModal">Anillo Chrome Hearts ♰</div>
     <div class="product-price">$13.00</div>
+  </section>
 
-    <div class="accordion">
+  <!-- MODAL -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
 
-      <div class="accordion-item">
-        <div class="accordion-header">
-          <div>DETALLES ♰</div>
-          <span>+</span>
+      <div class="modal-header">
+        <div>
+          <h2>Anillo Chrome Hearts ♰</h2>
+          <div class="modal-price">$13.00</div>
         </div>
-        <div class="accordion-content">
-          <p>
-            Anillo inspirado en diseño Chrome Hearts.
-            Estilo gótico con acabado envejecido.
-          </p>
-        </div>
+        <div class="close" id="closeModal">✕</div>
       </div>
 
-      <div class="accordion-item">
-        <div class="accordion-header">
-          <div>TALLA</div>
-          <span>+</span>
+      <div class="accordion">
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <div>DETALLES ♰</div>
+            <span>+</span>
+          </div>
+          <div class="accordion-content">
+            <p>
+              Anillo inspirado en Chrome Hearts.
+              Diseño gótico con acabado envejecido.
+            </p>
+          </div>
         </div>
-        <div class="accordion-content">
-          <img src="tallasanillos.jpg" alt="Tabla de tallas">
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <div>TALLA</div>
+            <span>+</span>
+          </div>
+          <div class="accordion-content">
+            <img src="tallasanillos.jpg" alt="Tabla de tallas">
+          </div>
         </div>
+
       </div>
 
     </div>
-  </section>
+  </div>
 
   <script>
     const btn = document.getElementById("scrollBtn");
     const info = document.getElementById("info");
+    const modal = document.getElementById("modal");
+    const openModal = document.getElementById("openModal");
+    const closeModal = document.getElementById("closeModal");
 
     btn.addEventListener("click", () => {
       info.scrollIntoView({ behavior: "smooth" });
+    });
+
+    openModal.addEventListener("click", () => {
+      modal.classList.add("active");
+    });
+
+    closeModal.addEventListener("click", () => {
+      modal.classList.remove("active");
     });
 
     document.querySelectorAll(".accordion-header").forEach(header => {
