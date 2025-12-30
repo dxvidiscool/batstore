@@ -20,6 +20,7 @@ body{
   font-family:Arial,sans-serif;
 }
 
+/* ===== MARCA ===== */
 .brand{
   position:fixed;
   top:20px;
@@ -31,7 +32,7 @@ body{
   pointer-events:none;
 }
 
-/* ===== MODELO ===== */
+/* ===== SECCIÓN MODELO ===== */
 .viewer-section{
   min-height:100vh;
   position:relative;
@@ -57,7 +58,7 @@ model-viewer{
 
 .scroll-btn{
   position:absolute;
-  bottom:0;
+  bottom:30px;
   width:48px;
   height:48px;
   border-radius:50%;
@@ -66,28 +67,41 @@ model-viewer{
   color:#000;
   font-size:24px;
   cursor:pointer;
-  margin-bottom:-24px;
   z-index:10;
 }
 
-/* ===== INFO ===== */
+/* ===== PRODUCTOS ===== */
 .info-section{
   min-height:100vh;
   background:#111;
   display:flex;
-  flex-direction:column;
+  justify-content:center;
   align-items:center;
-  padding:40px 0;
 }
 
-.product-image{width:220px}
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:60px;
+  padding:60px;
+}
+
+.product-card{
+  text-align:center;
+}
+
+.product-image{
+  width:220px;
+}
+
 .product-name{
-  font-size:28px;
+  font-size:22px;
   margin-top:15px;
   cursor:pointer;
 }
+
 .product-price{
-  font-size:22px;
+  font-size:18px;
   color:#ccc;
 }
 
@@ -111,7 +125,7 @@ model-viewer{
   border-radius:8px;
 }
 
-/* ===== SLIDER PRO ===== */
+/* ===== SLIDER SIMPLE (ANIMACIÓN ANTERIOR) ===== */
 .slider{
   position:relative;
   overflow:hidden;
@@ -120,19 +134,15 @@ model-viewer{
 .slider img{
   width:100%;
   border-radius:6px;
-  transition:all .6s cubic-bezier(.25,.8,.25,1);
+  transition:transform .4s ease;
 }
 
-.slider img.animate-next{
-  transform:translateX(-40px) scale(1.08);
-  filter:blur(6px);
-  opacity:0;
+.slider img.slide-left{
+  transform:translateX(-100%);
 }
 
-.slider img.animate-prev{
-  transform:translateX(40px) scale(1.08);
-  filter:blur(6px);
-  opacity:0;
+.slider img.slide-right{
+  transform:translateX(100%);
 }
 
 .arrow{
@@ -185,30 +195,20 @@ model-viewer{
   cursor:pointer;
 }
 
-.accordion-header span{
-  transition:transform .3s;
-}
-
 .accordion-content{
   max-height:0;
   overflow:hidden;
   transition:max-height .4s ease;
 }
 
-.accordion-content p{
-  color:#ccc;
-  margin-top:12px;
-}
-
 .accordion-item.active .accordion-content{
-  max-height:300px;
+  max-height:200px;
 }
 
-.accordion-item.active span{
-  transform:rotate(45deg);
-}
-
-@media(max-width:768px){
+@media(max-width:900px){
+  .products-grid{
+    grid-template-columns:1fr;
+  }
   model-viewer{width:90vw;height:90vw}
 }
 </style>
@@ -218,6 +218,7 @@ model-viewer{
 
 <div class="brand">Bat Store ♰</div>
 
+<!-- ===== MODELO ===== -->
 <section class="viewer-section">
   <video class="bg-video" autoplay muted loop playsinline>
     <source src="video.mp4">
@@ -227,13 +228,35 @@ model-viewer{
   <button class="scroll-btn" id="scrollBtn">↓</button>
 </section>
 
+<!-- ===== PRODUCTOS ===== -->
 <section class="info-section" id="info">
-  <img src="producto.jpg" class="product-image">
-  <div class="product-name" id="openModal">Anillo Chrome Hearts ♰</div>
-  <div class="product-price">$13.00</div>
+  <div class="products-grid">
+
+    <!-- PRODUCTO 1 -->
+    <div class="product-card">
+      <img src="producto.jpg" class="product-image">
+      <div class="product-name openModal">Anillo Chrome Hearts ♰</div>
+      <div class="product-price">$13.00</div>
+    </div>
+
+    <!-- PRODUCTO 2 (DUPLICADO) -->
+    <div class="product-card">
+      <img src="producto.jpg" class="product-image">
+      <div class="product-name openModal">Anillo Chrome Hearts ♰</div>
+      <div class="product-price">$13.00</div>
+    </div>
+
+    <!-- PRODUCTO 3 (DUPLICADO) -->
+    <div class="product-card">
+      <img src="producto.jpg" class="product-image">
+      <div class="product-name openModal">Anillo Chrome Hearts ♰</div>
+      <div class="product-price">$13.00</div>
+    </div>
+
+  </div>
 </section>
 
-<!-- MODAL -->
+<!-- ===== MODAL ===== -->
 <div class="modal" id="modal">
   <div class="modal-content">
 
@@ -241,16 +264,15 @@ model-viewer{
       <img id="sliderImage" src="producto.jpg">
       <div class="arrow left" id="prev">‹</div>
       <div class="arrow right" id="next">›</div>
-      <!-- AQUÍ PUEDES CAMBIAR O AÑADIR MÁS IMÁGENES -->
+      <!-- AQUÍ PUEDES AÑADIR MÁS IMÁGENES -->
     </div>
 
     <div class="modal-header">
-      <div>
-        <h2>Anillo Chrome Hearts ♰</h2>
-        <div class="product-price">$13.00</div>
-      </div>
+      <h2>Anillo Chrome Hearts ♰</h2>
       <div class="close" id="closeModal">✕</div>
     </div>
+
+    <div class="product-price">$13.00</div>
 
     <div class="size-box">
       <div>Talla</div>
@@ -260,14 +282,9 @@ model-viewer{
     <div class="accordion-item">
       <div class="accordion-header">
         <div>DESCRIPCIÓN ♰</div>
-        <span>+</span>
       </div>
       <div class="accordion-content">
-        <p>
-          Anillo inspirado en Chrome Hearts.
-          Diseño gótico con acabado envejecido,
-          ideal para uso diario o colección.
-        </p>
+        <p>Anillo estilo Chrome Hearts, diseño gótico.</p>
       </div>
     </div>
 
@@ -275,14 +292,16 @@ model-viewer{
 </div>
 
 <script>
-/* BOTÓN ↓ ARREGLADO */
-document.getElementById("scrollBtn").onclick = () => {
+/* SCROLL */
+document.getElementById("scrollBtn").onclick=()=>{
   document.getElementById("info").scrollIntoView({behavior:"smooth"});
 };
 
 /* MODAL */
 const modal=document.getElementById("modal");
-document.getElementById("openModal").onclick=()=>modal.classList.add("active");
+document.querySelectorAll(".openModal").forEach(el=>{
+  el.onclick=()=>modal.classList.add("active");
+});
 document.getElementById("closeModal").onclick=()=>modal.classList.remove("active");
 
 /* ACORDEON */
@@ -290,25 +309,20 @@ document.querySelector(".accordion-header").onclick=function(){
   this.parentElement.classList.toggle("active");
 };
 
-/* SLIDER PEPA */
-const images=[
-  "producto.jpg"
-  // AGREGA MÁS IMÁGENES AQUÍ
-];
+/* SLIDER SIMPLE */
+const images=["producto.jpg"];
 let index=0;
 const img=document.getElementById("sliderImage");
 
 function slide(dir){
-  img.classList.add(dir==="next"?"animate-next":"animate-prev");
-
+  img.classList.add(dir==="next"?"slide-left":"slide-right");
   setTimeout(()=>{
-    index=dir==="next"
+    index=(dir==="next")
       ?(index+1)%images.length
       :(index-1+images.length)%images.length;
-
     img.src=images[index];
-    img.classList.remove("animate-next","animate-prev");
-  },350);
+    img.classList.remove("slide-left","slide-right");
+  },300);
 }
 
 document.getElementById("next").onclick=()=>slide("next");
