@@ -81,9 +81,9 @@ model-viewer{
 
 .products-grid{
   display:grid;
-  grid-template-columns:repeat(3, 1fr);
+  grid-template-columns:repeat(4, 1fr); /* 4 por fila */
   gap:60px;
-  padding:60px;
+  padding:80px;
 }
 
 .product-card{
@@ -125,7 +125,7 @@ model-viewer{
   border-radius:8px;
 }
 
-/* ===== SLIDER SIMPLE (ANIMACIÓN ANTERIOR) ===== */
+/* ===== SLIDER ===== */
 .slider{
   position:relative;
   overflow:hidden;
@@ -137,13 +137,8 @@ model-viewer{
   transition:transform .4s ease;
 }
 
-.slider img.slide-left{
-  transform:translateX(-100%);
-}
-
-.slider img.slide-right{
-  transform:translateX(100%);
-}
+.slider img.slide-left{transform:translateX(-100%)}
+.slider img.slide-right{transform:translateX(100%)}
 
 .arrow{
   position:absolute;
@@ -154,7 +149,6 @@ model-viewer{
   background:rgba(0,0,0,.5);
   padding:6px 12px;
   border-radius:4px;
-  user-select:none;
 }
 
 .arrow.left{left:10px}
@@ -166,22 +160,7 @@ model-viewer{
   margin-top:12px;
 }
 
-.close{
-  font-size:22px;
-  cursor:pointer;
-}
-
-.size-box{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin:12px 0 20px;
-}
-
-.size-square{
-  border:1px solid #fff;
-  padding:6px 14px;
-}
+.close{cursor:pointer}
 
 /* ===== ACORDEON ===== */
 .accordion-item{
@@ -205,9 +184,12 @@ model-viewer{
   max-height:200px;
 }
 
+/* ===== RESPONSIVE ===== */
 @media(max-width:900px){
   .products-grid{
-    grid-template-columns:1fr;
+    grid-template-columns:repeat(2, 1fr); /* 2 por fila en celular */
+    gap:30px;
+    padding:40px;
   }
   model-viewer{width:90vw;height:90vw}
 }
@@ -232,101 +214,30 @@ model-viewer{
 <section class="info-section" id="info">
   <div class="products-grid">
 
-    <!-- PRODUCTO 1 -->
-    <div class="product-card">
-      <img src="producto.jpg" class="product-image">
-      <div class="product-name openModal">Anillo Chrome Hearts ♰</div>
-      <div class="product-price">$13.00</div>
-    </div>
+    <!-- 8 PRODUCTOS (MISMO ANILLO) -->
+    <!-- Copiados intencionalmente -->
+    <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
+    <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
+    <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
+    <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
 
-    <!-- PRODUCTO 2 (DUPLICADO) -->
-    <div class="product-card">
-      <img src="producto.jpg" class="product-image">
-      <div class="product-name openModal">Anillo Chrome Hearts ♰</div>
-      <div class="product-price">$13.00</div>
-    </div>
-
-    <!-- PRODUCTO 3 (DUPLICADO) -->
-    <div class="product-card">
-      <img src="producto.jpg" class="product-image">
-      <div class="product-name openModal">Anillo Chrome Hearts ♰</div>
-      <div class="product-price">$13.00</div>
-    </div>
+    <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
+    <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
+    <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
+    <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
 
   </div>
 </section>
 
-<!-- ===== MODAL ===== -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-
-    <div class="slider">
-      <img id="sliderImage" src="producto.jpg">
-      <div class="arrow left" id="prev">‹</div>
-      <div class="arrow right" id="next">›</div>
-      <!-- AQUÍ PUEDES AÑADIR MÁS IMÁGENES -->
-    </div>
-
-    <div class="modal-header">
-      <h2>Anillo Chrome Hearts ♰</h2>
-      <div class="close" id="closeModal">✕</div>
-    </div>
-
-    <div class="product-price">$13.00</div>
-
-    <div class="size-box">
-      <div>Talla</div>
-      <div class="size-square">9</div>
-    </div>
-
-    <div class="accordion-item">
-      <div class="accordion-header">
-        <div>DESCRIPCIÓN ♰</div>
-      </div>
-      <div class="accordion-content">
-        <p>Anillo estilo Chrome Hearts, diseño gótico.</p>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 <script>
-/* SCROLL */
 document.getElementById("scrollBtn").onclick=()=>{
   document.getElementById("info").scrollIntoView({behavior:"smooth"});
 };
 
-/* MODAL */
 const modal=document.getElementById("modal");
 document.querySelectorAll(".openModal").forEach(el=>{
   el.onclick=()=>modal.classList.add("active");
 });
-document.getElementById("closeModal").onclick=()=>modal.classList.remove("active");
-
-/* ACORDEON */
-document.querySelector(".accordion-header").onclick=function(){
-  this.parentElement.classList.toggle("active");
-};
-
-/* SLIDER SIMPLE */
-const images=["producto.jpg"];
-let index=0;
-const img=document.getElementById("sliderImage");
-
-function slide(dir){
-  img.classList.add(dir==="next"?"slide-left":"slide-right");
-  setTimeout(()=>{
-    index=(dir==="next")
-      ?(index+1)%images.length
-      :(index-1+images.length)%images.length;
-    img.src=images[index];
-    img.classList.remove("slide-left","slide-right");
-  },300);
-}
-
-document.getElementById("next").onclick=()=>slide("next");
-document.getElementById("prev").onclick=()=>slide("prev");
 </script>
 
 </body>
