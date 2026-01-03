@@ -76,14 +76,15 @@ model-viewer{
   background:#111;
   display:flex;
   justify-content:center;
-  align-items:center;
+  align-items:flex-start;
+  padding-top:120px; /* baja productos */
 }
 
 .products-grid{
   display:grid;
-  grid-template-columns:repeat(4, 1fr); /* 4 por fila */
+  grid-template-columns:repeat(4, 1fr);
   gap:60px;
-  padding:80px;
+  padding:40px 80px;
 }
 
 .product-card{
@@ -186,12 +187,38 @@ model-viewer{
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:900px){
-  .products-grid{
-    grid-template-columns:repeat(2, 1fr); /* 2 por fila en celular */
-    gap:30px;
-    padding:40px;
+
+  .brand{
+    font-size:34px;
+    top:12px;
   }
-  model-viewer{width:90vw;height:90vw}
+
+  .info-section{
+    padding-top:100px;
+  }
+
+  .products-grid{
+    grid-template-columns:repeat(2, 1fr);
+    gap:25px;
+    padding:20px;
+  }
+
+  .product-image{
+    width:150px;
+  }
+
+  .product-name{
+    font-size:16px;
+  }
+
+  .product-price{
+    font-size:14px;
+  }
+
+  model-viewer{
+    width:90vw;
+    height:90vw;
+  }
 }
 </style>
 </head>
@@ -214,8 +241,7 @@ model-viewer{
 <section class="info-section" id="info">
   <div class="products-grid">
 
-    <!-- 8 PRODUCTOS (MISMO ANILLO) -->
-    <!-- Copiados intencionalmente -->
+    <!-- 8 PRODUCTOS -->
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
@@ -230,14 +256,10 @@ model-viewer{
 </section>
 
 <script>
+/* SCROLL */
 document.getElementById("scrollBtn").onclick=()=>{
   document.getElementById("info").scrollIntoView({behavior:"smooth"});
 };
-
-const modal=document.getElementById("modal");
-document.querySelectorAll(".openModal").forEach(el=>{
-  el.onclick=()=>modal.classList.add("active");
-});
 </script>
 
 </body>
