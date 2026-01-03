@@ -90,19 +90,9 @@ model-viewer{
 }
 
 .product-card{text-align:center}
-
 .product-image{width:220px}
-
-.product-name{
-  font-size:22px;
-  margin-top:15px;
-  cursor:pointer;
-}
-
-.product-price{
-  font-size:18px;
-  color:#ccc;
-}
+.product-name{font-size:22px;margin-top:15px;cursor:pointer}
+.product-price{font-size:18px;color:#ccc}
 
 /* ===== MODAL ===== */
 .modal{
@@ -119,28 +109,44 @@ model-viewer{
 .modal-content{
   background:#111;
   width:90%;
-  max-width:380px;        /* MÁS PEQUEÑO */
-  max-height:80vh;        /* CLAVE */
+  max-width:380px;
+  max-height:80vh;
   padding:18px;
   border-radius:10px;
-  overflow-y:auto;        /* SCROLL INTERNO */
+  overflow-y:auto;
 }
 
-/* ocultar scrollbar fea */
-.modal-content::-webkit-scrollbar{
-  width:4px;
-}
-.modal-content::-webkit-scrollbar-thumb{
-  background:#333;
-}
-
-/* ===== IMAGEN MODAL ===== */
-.modal-content img{
-  width:100%;
-  max-height:220px;       /* LIMITA ALTURA */
-  object-fit:cover;
+/* ===== SLIDER ===== */
+.slider{
+  position:relative;
+  overflow:hidden;
   border-radius:6px;
 }
+
+.slider img{
+  width:100%;
+  max-height:220px;
+  object-fit:cover;
+  transition:transform .4s ease;
+}
+
+.slider img.slide-left{transform:translateX(-100%)}
+.slider img.slide-right{transform:translateX(100%)}
+
+.arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:28px;
+  background:rgba(0,0,0,.6);
+  padding:4px 10px;
+  cursor:pointer;
+  border-radius:4px;
+  user-select:none;
+}
+
+.arrow.left{left:8px}
+.arrow.right{right:8px}
 
 /* ===== TALLA ===== */
 .size-box{
@@ -195,33 +201,12 @@ model-viewer{
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:900px){
-
-  .brand{
-    font-size:34px;
-    top:12px;
-  }
-
-  .products-grid{
-    grid-template-columns:repeat(2, 1fr);
-    gap:25px;
-    padding:20px;
-  }
-
+  .brand{font-size:34px;top:12px}
+  .products-grid{grid-template-columns:repeat(2,1fr);gap:25px;padding:20px}
   .product-image{width:150px}
-
   .product-name{font-size:16px}
-
   .product-price{font-size:14px}
-
-  model-viewer{
-    width:90vw;
-    height:90vw;
-  }
-
-  .modal-content{
-    max-width:340px;
-    max-height:75vh;
-  }
+  model-viewer{width:90vw;height:90vw}
 }
 </style>
 </head>
@@ -234,7 +219,6 @@ model-viewer{
   <video class="bg-video" autoplay muted loop playsinline>
     <source src="video.mp4">
   </video>
-
   <model-viewer src="modell.glb" camera-controls disable-zoom auto-rotate></model-viewer>
   <button class="scroll-btn" id="scrollBtn">↓</button>
 </section>
@@ -257,7 +241,11 @@ model-viewer{
 <div class="modal" id="modal">
   <div class="modal-content">
 
-    <img src="producto.jpg">
+    <div class="slider">
+      <img id="sliderImage" src="producto.jpg">
+      <div class="arrow left" id="prev">‹</div>
+      <div class="arrow right" id="next">›</div>
+    </div>
 
     <h2>Anillo Chrome Hearts ♰</h2>
     <div class="product-price">$13.00</div>
@@ -278,22 +266,43 @@ model-viewer{
 </div>
 
 <script>
+/* SCROLL */
 document.getElementById("scrollBtn").onclick=()=>{
   document.getElementById("info").scrollIntoView({behavior:"smooth"});
 };
 
+/* MODAL */
 const modal=document.getElementById("modal");
 document.querySelectorAll(".openModal").forEach(el=>{
   el.onclick=()=>modal.classList.add("active");
 });
-
 modal.onclick=e=>{
   if(e.target===modal) modal.classList.remove("active");
 };
 
+/* ACORDEÓN */
 document.querySelector(".accordion-header").onclick=function(){
   this.parentElement.classList.toggle("active");
 };
+
+/* SLIDER */
+const images=["producto.jpg","producto.jpg","producto.jpg"]; // puedes cambiar luego
+let index=0;
+const img=document.getElementById("sliderImage");
+
+function slide(dir){
+  img.classList.add(dir==="next"?"slide-left":"slide-right");
+  setTimeout(()=>{
+    index=(dir==="next")
+      ?(index+1)%images.length
+      :(index-1+images.length)%images.length;
+    img.src=images[index];
+    img.classList.remove("slide-left","slide-right");
+  },300);
+}
+
+document.getElementById("next").onclick=()=>slide("next");
+document.getElementById("prev").onclick=()=>slide("prev");
 </script>
 
 </body>
