@@ -126,10 +126,9 @@ model-viewer{
   border-radius:8px;
 }
 
-/* ===== SLIDER ===== */
+/* ===== SLIDER (SIN FONDO NEGRO) ===== */
 .slider{
   height:220px;
-  background:#000;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -140,6 +139,7 @@ model-viewer{
   max-width:100%;
   max-height:100%;
   object-fit:contain;
+  display:block;
   transition:transform .4s ease;
 }
 
@@ -149,7 +149,7 @@ model-viewer{
   transform:translateY(-50%);
   font-size:28px;
   cursor:pointer;
-  background:rgba(0,0,0,.5);
+  background:rgba(0,0,0,.4);
   padding:4px 10px;
   border-radius:4px;
   user-select:none;
@@ -183,23 +183,21 @@ model-viewer{
   font-size:16px;
 }
 
-/* ===== ACORDEON ===== */
+/* ===== ACORDEÓN MEJORADO ===== */
 .accordion-item{
   border-top:1px solid #333;
   padding:15px 0;
 }
 
 .accordion-header{
-  display:flex;
-  justify-content:space-between;
   cursor:pointer;
 }
 
 .accordion-content{
   max-height:0;
   overflow:hidden;
-  transition:max-height .5s ease, opacity .4s ease;
   opacity:0;
+  transition:max-height .5s ease, opacity .4s ease;
 }
 
 .accordion-item.active .accordion-content{
@@ -259,7 +257,7 @@ model-viewer{
 <section class="info-section" id="info">
   <div class="products-grid">
 
-    <!-- 8 PRODUCTOS -->
+    <!-- 8 productos duplicados -->
     <script>
       for(let i=0;i<8;i++){
         document.write(`
@@ -308,10 +306,12 @@ model-viewer{
 </div>
 
 <script>
+/* Scroll */
 document.getElementById("scrollBtn").onclick=()=>{
   document.getElementById("info").scrollIntoView({behavior:"smooth"});
 };
 
+/* Modal */
 const modal=document.getElementById("modal");
 
 document.addEventListener("click",e=>{
@@ -324,10 +324,12 @@ document.getElementById("closeModal").onclick=()=>{
   modal.classList.remove("active");
 };
 
+/* Acordeón */
 document.querySelector(".accordion-header").onclick=function(){
   this.parentElement.classList.toggle("active");
 };
 
+/* Slider */
 const images=["producto.jpg"];
 let index=0;
 const img=document.getElementById("sliderImage");
