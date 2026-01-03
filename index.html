@@ -89,13 +89,9 @@ model-viewer{
   padding:20px 40px;
 }
 
-.product-card{
-  text-align:center;
-}
+.product-card{text-align:center}
 
-.product-image{
-  width:220px;
-}
+.product-image{width:220px}
 
 .product-name{
   font-size:22px;
@@ -123,14 +119,26 @@ model-viewer{
 .modal-content{
   background:#111;
   width:90%;
-  max-width:420px;
-  padding:20px;
+  max-width:380px;        /* MÁS PEQUEÑO */
+  max-height:80vh;        /* CLAVE */
+  padding:18px;
   border-radius:10px;
+  overflow-y:auto;        /* SCROLL INTERNO */
 }
 
-/* ===== SLIDER ===== */
-.slider img{
+/* ocultar scrollbar fea */
+.modal-content::-webkit-scrollbar{
+  width:4px;
+}
+.modal-content::-webkit-scrollbar-thumb{
+  background:#333;
+}
+
+/* ===== IMAGEN MODAL ===== */
+.modal-content img{
   width:100%;
+  max-height:220px;       /* LIMITA ALTURA */
+  object-fit:cover;
   border-radius:6px;
 }
 
@@ -139,56 +147,50 @@ model-viewer{
   display:flex;
   align-items:center;
   gap:12px;
-  margin:15px 0;
+  margin:12px 0;
 }
 
-.size-label{
-  font-size:16px;
-  color:#ccc;
-}
+.size-label{color:#ccc}
 
 .size-rect{
   border:1px solid #fff;
-  padding:6px 16px;
+  padding:5px 14px;
   border-radius:4px;
-  font-size:16px;
 }
 
-/* ===== ACORDEON MEJORADO ===== */
+/* ===== ACORDEÓN ===== */
 .accordion-item{
   border-top:1px solid #333;
-  margin-top:15px;
+  margin-top:12px;
 }
 
 .accordion-header{
-  padding:14px 0;
+  padding:12px 0;
   cursor:pointer;
-  font-size:16px;
-  letter-spacing:1px;
 }
 
 .accordion-content{
   max-height:0;
-  overflow:hidden;
   opacity:0;
-  transform:translateY(-8px);
+  transform:translateY(-6px);
+  overflow:hidden;
   transition:
-    max-height .6s ease,
+    max-height .5s ease,
     opacity .4s ease,
     transform .4s ease;
 }
 
 .accordion-item.active .accordion-content{
-  max-height:200px;
+  max-height:160px;
   opacity:1;
   transform:translateY(0);
 }
 
 .accordion-content p{
-  margin:0;
-  color:#ccc;
   font-size:14px;
+  color:#ccc;
   line-height:1.6;
+  margin:0;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -205,21 +207,20 @@ model-viewer{
     padding:20px;
   }
 
-  .product-image{
-    width:150px;
-  }
+  .product-image{width:150px}
 
-  .product-name{
-    font-size:16px;
-  }
+  .product-name{font-size:16px}
 
-  .product-price{
-    font-size:14px;
-  }
+  .product-price{font-size:14px}
 
   model-viewer{
     width:90vw;
     height:90vw;
+  }
+
+  .modal-content{
+    max-width:340px;
+    max-height:75vh;
   }
 }
 </style>
@@ -240,6 +241,7 @@ model-viewer{
 
 <section class="info-section" id="info">
   <div class="products-grid">
+    <!-- 8 productos -->
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
@@ -251,23 +253,20 @@ model-viewer{
   </div>
 </section>
 
-<!-- ===== MODAL ===== -->
+<!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
 
     <img src="producto.jpg">
 
     <h2>Anillo Chrome Hearts ♰</h2>
-
     <div class="product-price">$13.00</div>
 
-    <!-- TALLA -->
     <div class="size-box">
       <div class="size-label">Talla</div>
       <div class="size-rect">9</div>
     </div>
 
-    <!-- DESCRIPCIÓN -->
     <div class="accordion-item">
       <div class="accordion-header">DESCRIPCIÓN ♰</div>
       <div class="accordion-content">
@@ -287,6 +286,7 @@ const modal=document.getElementById("modal");
 document.querySelectorAll(".openModal").forEach(el=>{
   el.onclick=()=>modal.classList.add("active");
 });
+
 modal.onclick=e=>{
   if(e.target===modal) modal.classList.remove("active");
 };
