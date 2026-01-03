@@ -95,7 +95,6 @@ model-viewer{
 
 .product-image{
   width:220px;
-  max-width:100%;
 }
 
 .product-name{
@@ -126,67 +125,70 @@ model-viewer{
   width:90%;
   max-width:420px;
   padding:20px;
-  border-radius:8px;
+  border-radius:10px;
 }
 
 /* ===== SLIDER ===== */
-.slider{
-  position:relative;
-  overflow:hidden;
-}
-
 .slider img{
   width:100%;
   border-radius:6px;
-  transition:transform .4s ease;
 }
 
-.slider img.slide-left{transform:translateX(-100%)}
-.slider img.slide-right{transform:translateX(100%)}
-
-.arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  font-size:30px;
-  cursor:pointer;
-  background:rgba(0,0,0,.5);
-  padding:6px 12px;
-  border-radius:4px;
-}
-
-.arrow.left{left:10px}
-.arrow.right{right:10px}
-
-.modal-header{
+/* ===== TALLA ===== */
+.size-box{
   display:flex;
-  justify-content:space-between;
-  margin-top:12px;
+  align-items:center;
+  gap:12px;
+  margin:15px 0;
 }
 
-.close{
-  font-size:22px;
-  cursor:pointer;
+.size-label{
+  font-size:16px;
+  color:#ccc;
 }
 
-/* ===== ACORDEON ===== */
+.size-rect{
+  border:1px solid #fff;
+  padding:6px 16px;
+  border-radius:4px;
+  font-size:16px;
+}
+
+/* ===== ACORDEON MEJORADO ===== */
 .accordion-item{
   border-top:1px solid #333;
-  padding:15px 0;
+  margin-top:15px;
 }
 
 .accordion-header{
+  padding:14px 0;
   cursor:pointer;
+  font-size:16px;
+  letter-spacing:1px;
 }
 
 .accordion-content{
   max-height:0;
   overflow:hidden;
-  transition:max-height .4s ease;
+  opacity:0;
+  transform:translateY(-8px);
+  transition:
+    max-height .6s ease,
+    opacity .4s ease,
+    transform .4s ease;
 }
 
 .accordion-item.active .accordion-content{
   max-height:200px;
+  opacity:1;
+  transform:translateY(0);
+}
+
+.accordion-content p{
+  margin:0;
+  color:#ccc;
+  font-size:14px;
+  line-height:1.6;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -197,20 +199,10 @@ model-viewer{
     top:12px;
   }
 
-  .info-section{
-    padding-top:100px;
-  }
-
   .products-grid{
     grid-template-columns:repeat(2, 1fr);
     gap:25px;
     padding:20px;
-  }
-
-  .product-card{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
   }
 
   .product-image{
@@ -219,7 +211,6 @@ model-viewer{
 
   .product-name{
     font-size:16px;
-    text-align:center;
   }
 
   .product-price{
@@ -238,7 +229,6 @@ model-viewer{
 
 <div class="brand">Bat Store ♰</div>
 
-<!-- ===== MODELO ===== -->
 <section class="viewer-section">
   <video class="bg-video" autoplay muted loop playsinline>
     <source src="video.mp4">
@@ -248,21 +238,16 @@ model-viewer{
   <button class="scroll-btn" id="scrollBtn">↓</button>
 </section>
 
-<!-- ===== PRODUCTOS ===== -->
 <section class="info-section" id="info">
   <div class="products-grid">
-
-    <!-- 8 PRODUCTOS -->
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
-
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
     <div class="product-card"><img src="producto.jpg" class="product-image"><div class="product-name openModal">Anillo Chrome Hearts ♰</div><div class="product-price">$13.00</div></div>
-
   </div>
 </section>
 
@@ -270,23 +255,23 @@ model-viewer{
 <div class="modal" id="modal">
   <div class="modal-content">
 
-    <div class="slider">
-      <img id="sliderImage" src="producto.jpg">
-      <div class="arrow left" id="prev">‹</div>
-      <div class="arrow right" id="next">›</div>
-    </div>
+    <img src="producto.jpg">
 
-    <div class="modal-header">
-      <h2>Anillo Chrome Hearts ♰</h2>
-      <div class="close" id="closeModal">✕</div>
-    </div>
+    <h2>Anillo Chrome Hearts ♰</h2>
 
     <div class="product-price">$13.00</div>
 
+    <!-- TALLA -->
+    <div class="size-box">
+      <div class="size-label">Talla</div>
+      <div class="size-rect">9</div>
+    </div>
+
+    <!-- DESCRIPCIÓN -->
     <div class="accordion-item">
       <div class="accordion-header">DESCRIPCIÓN ♰</div>
       <div class="accordion-content">
-        <p>Anillo estilo Chrome Hearts, diseño gótico.</p>
+        <p>Anillo estilo Chrome Hearts, diseño gótico, acabado oscuro y carácter fuerte.</p>
       </div>
     </div>
 
@@ -294,43 +279,21 @@ model-viewer{
 </div>
 
 <script>
-/* SCROLL */
 document.getElementById("scrollBtn").onclick=()=>{
   document.getElementById("info").scrollIntoView({behavior:"smooth"});
 };
 
-/* MODAL */
 const modal=document.getElementById("modal");
 document.querySelectorAll(".openModal").forEach(el=>{
   el.onclick=()=>modal.classList.add("active");
 });
-document.getElementById("closeModal").onclick=()=>{
-  modal.classList.remove("active");
+modal.onclick=e=>{
+  if(e.target===modal) modal.classList.remove("active");
 };
 
-/* ACORDEON */
 document.querySelector(".accordion-header").onclick=function(){
   this.parentElement.classList.toggle("active");
 };
-
-/* SLIDER */
-const images=["producto.jpg"];
-let index=0;
-const img=document.getElementById("sliderImage");
-
-function slide(dir){
-  img.classList.add(dir==="next"?"slide-left":"slide-right");
-  setTimeout(()=>{
-    index=(dir==="next")
-      ?(index+1)%images.length
-      :(index-1+images.length)%images.length;
-    img.src=images[index];
-    img.classList.remove("slide-left","slide-right");
-  },300);
-}
-
-document.getElementById("next").onclick=()=>slide("next");
-document.getElementById("prev").onclick=()=>slide("prev");
 </script>
 
 </body>
