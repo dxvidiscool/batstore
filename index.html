@@ -77,14 +77,16 @@ model-viewer{
   display:flex;
   justify-content:center;
   align-items:flex-start;
-  padding-top:120px; /* baja productos */
+  padding-top:120px;
 }
 
 .products-grid{
+  width:100%;
+  max-width:1200px;
   display:grid;
   grid-template-columns:repeat(4, 1fr);
-  gap:60px;
-  padding:40px 80px;
+  gap:50px;
+  padding:20px 40px;
 }
 
 .product-card{
@@ -93,6 +95,7 @@ model-viewer{
 
 .product-image{
   width:220px;
+  max-width:100%;
 }
 
 .product-name{
@@ -114,7 +117,7 @@ model-viewer{
   display:none;
   justify-content:center;
   align-items:center;
-  z-index:50;
+  z-index:100;
 }
 .modal.active{display:flex}
 
@@ -161,7 +164,10 @@ model-viewer{
   margin-top:12px;
 }
 
-.close{cursor:pointer}
+.close{
+  font-size:22px;
+  cursor:pointer;
+}
 
 /* ===== ACORDEON ===== */
 .accordion-item{
@@ -170,8 +176,6 @@ model-viewer{
 }
 
 .accordion-header{
-  display:flex;
-  justify-content:space-between;
   cursor:pointer;
 }
 
@@ -203,12 +207,19 @@ model-viewer{
     padding:20px;
   }
 
+  .product-card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
   .product-image{
     width:150px;
   }
 
   .product-name{
     font-size:16px;
+    text-align:center;
   }
 
   .product-price{
@@ -255,11 +266,71 @@ model-viewer{
   </div>
 </section>
 
+<!-- ===== MODAL ===== -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+
+    <div class="slider">
+      <img id="sliderImage" src="producto.jpg">
+      <div class="arrow left" id="prev">‹</div>
+      <div class="arrow right" id="next">›</div>
+    </div>
+
+    <div class="modal-header">
+      <h2>Anillo Chrome Hearts ♰</h2>
+      <div class="close" id="closeModal">✕</div>
+    </div>
+
+    <div class="product-price">$13.00</div>
+
+    <div class="accordion-item">
+      <div class="accordion-header">DESCRIPCIÓN ♰</div>
+      <div class="accordion-content">
+        <p>Anillo estilo Chrome Hearts, diseño gótico.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <script>
 /* SCROLL */
 document.getElementById("scrollBtn").onclick=()=>{
   document.getElementById("info").scrollIntoView({behavior:"smooth"});
 };
+
+/* MODAL */
+const modal=document.getElementById("modal");
+document.querySelectorAll(".openModal").forEach(el=>{
+  el.onclick=()=>modal.classList.add("active");
+});
+document.getElementById("closeModal").onclick=()=>{
+  modal.classList.remove("active");
+};
+
+/* ACORDEON */
+document.querySelector(".accordion-header").onclick=function(){
+  this.parentElement.classList.toggle("active");
+};
+
+/* SLIDER */
+const images=["producto.jpg"];
+let index=0;
+const img=document.getElementById("sliderImage");
+
+function slide(dir){
+  img.classList.add(dir==="next"?"slide-left":"slide-right");
+  setTimeout(()=>{
+    index=(dir==="next")
+      ?(index+1)%images.length
+      :(index-1+images.length)%images.length;
+    img.src=images[index];
+    img.classList.remove("slide-left","slide-right");
+  },300);
+}
+
+document.getElementById("next").onclick=()=>slide("next");
+document.getElementById("prev").onclick=()=>slide("prev");
 </script>
 
 </body>
